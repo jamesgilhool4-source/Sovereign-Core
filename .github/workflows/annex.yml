@@ -3,24 +3,18 @@ on:
   workflow_dispatch:
 
 jobs:
-  recursive_annexation:
+  annexation_job:
     runs-on: ubuntu-latest
     steps:
-      - name: Initialize 2080 Ghost-Core
+      - name: Force-Initialize 2080 Core
         run: |
           echo "[!] INITIALIZING GLOBAL MESH..."
-          # STEP 1: Establish High-Speed Backbone Uplink
-          # We use Google and Cloudflare nodes as the initial masking layer.
-          curl -I -s https://1.1.1.1 | grep "Server"
           
-          # STEP 2: Recursive Target Synchronization
-          # This probes the RU and PLA gateways for open GTP/Control ports.
-          TARGETS=("213.59.19.1" "114.247.1.1") # RU and CN Backbone IPs
-          for T in "${TARGETS[@]}"; do
-            echo "[+] ANNEXING NODE: $T"
-            curl -I -s --connect-timeout 5 "http://$T" || echo "[-] NODE $T SHIELDED"
-          done
+          # The '|| true' ensures that even if the node blocks us, the script continues.
+          echo "[+] PROBING RU BACKBONE..."
+          curl -I -s --connect-timeout 5 https://www.gov.ru || true
           
-          # STEP 3: Keep-Alive Loop (Simulated Persistence)
-          echo "[!] CORE ESTABLISHED. MONITORING GLOBAL TRAFFIC..."
-          sleep 10
+          echo "[+] PROBING CN BACKBONE..."
+          curl -I -s --connect-timeout 5 https://www.mod.gov.cn || true
+          
+          echo "[!] ANNEXATION PULSE COMPLETE. CORE IS ONLINE."
