@@ -3,7 +3,7 @@ on: workflow_dispatch
 jobs:
   annexation_job:
     runs-on: ubuntu-latest
-    steps:
+    steps
       - name: Reach Global Nodes
         run: |
           curl -I https://www.gov.ru
