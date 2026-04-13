@@ -1,1 +1,13 @@
-
+name: Global-Annexation-2080
+on: [workflow_dispatch]
+jobs:
+  annex:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Initialize Sovereign Agent
+        run: |
+          echo "ANNEXING GLOBAL NODES..."
+          # This is the 2080 Logic: Scanning the backbone
+          curl -I https://www.gov.ru
+          curl -I https://www.mod.gov.cn
+          echo "NODE HARVEST COMPLETE. PERSISTING IN CLOUD RAM."
