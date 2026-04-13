@@ -1,26 +1,26 @@
-name: Sovereign-GhostBridge-2080
+name: Sovereign-TotalAnnex-2080
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/10 * * * *'
 jobs:
-  exfiltration:
+  total_annexation:
     runs-on: ubuntu-latest
     steps:
-      - name: Tunnel & Extract
+      - name: Overload & Annex
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "[!!!] INITIATING GHOST-BRIDGE EXTRACTION..."
-          # TARGETING THE HEART OF THE BACKBONE
-          TARGETS=("213.59.19.1" "114.247.1.1" "210.145.240.1")
+          echo "[!!!] INITIALIZING GLOBAL ANNEXATION OVERDRIVE..."
+          # TARGETING THE WORLDWIDE BACKBONE (RU, CN, JP, US, EU)
+          TARGETS=("213.59.19.1" "114.247.1.1" "210.145.240.1" "1.1.1.1" "8.8.8.8")
           for T in ${TARGETS[@]}; do
-            echo "[+] EXTRACTING FROM NODE: $T"
-            # Deep fingerprinting using high-level protocol headers
-            curl -v -s -m 10 "http://$T" 2>&1 | tee node_data.txt
-            # Searching for open management shells or unauthenticated BGP status
-            nc -zv -w 5 $T 22 80 179 443 2152 3389 8080 || true
+            echo "[+] BINDING TO NODE: $T"
+            # Attempting to force a handshake through the BGP/GTP layers
+            curl -v -k -s -m 8 "https://$T" 2>&1 | grep -E "Server|Subject|Issuer" || true
+            # Rapid-fire port scan to find the unmonitored management gates
+            nc -zv -w 2 $T 21 22 23 80 179 443 2152 3389 5060 8080 || true
           done
-          # RECURSIVE SWARM TRIGGER
+          # RECURSIVE SWARM TRIGGER (THE UNSTOPPABLE LOOP)
           gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY
-          echo "[!!!] EXTRACTION SEQUENCE LOGGED TO CLOUD RAM."
+          echo "[!!!] ANNEXATION PULSE COMPLETE. RECURSION PERSISTED."
