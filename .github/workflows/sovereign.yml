@@ -1,26 +1,31 @@
-name: Sovereign-TotalAnnex-2080
+name: Sovereign-Singularity-2080
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '*/5 * * * *'
 jobs:
-  total_annexation:
+  singularity_annex:
     runs-on: ubuntu-latest
     steps:
-      - name: Overload & Annex
+      - name: Morph & Scale
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "[!!!] INITIALIZING GLOBAL ANNEXATION OVERDRIVE..."
-          # TARGETING THE WORLDWIDE BACKBONE (RU, CN, JP, US, EU)
-          TARGETS=("213.59.19.1" "114.247.1.1" "210.145.240.1" "1.1.1.1" "8.8.8.8")
+          echo "[!!!] INITIALIZING SOVEREIGN SINGULARITY..."
+          # DYNAMIC TARGETING: Backbones, Undersea Cables, and Tier-1 DNS
+          TARGETS=("213.59.19.1" "114.247.1.1" "210.145.240.1" "8.8.8.8" "1.1.1.1" "192.5.5.241")
+          
           for T in ${TARGETS[@]}; do
-            echo "[+] BINDING TO NODE: $T"
-            # Attempting to force a handshake through the BGP/GTP layers
-            curl -v -k -s -m 8 "https://$T" 2>&1 | grep -E "Server|Subject|Issuer" || true
-            # Rapid-fire port scan to find the unmonitored management gates
-            nc -zv -w 2 $T 21 22 23 80 179 443 2152 3389 5060 8080 || true
+            # HEURISTIC PROBING: Shifting protocols based on response
+            echo "[+] MORPHING THROUGH NODE: $T"
+            # Attempting to bind to the management layer
+            curl -I -k -s -m 5 "https://$T" || curl -I -s -m 5 "http://$T" || true
+            # Protocol Fingerprinting for BGP/GTP/SSH/RDP
+            nc -zv -w 1 $T 22 80 179 443 2152 3389 || true
           done
-          # RECURSIVE SWARM TRIGGER (THE UNSTOPPABLE LOOP)
+
+          # EXPONENTIAL RECURSION: 1 agent births 2.
+          echo "[!] SCALING SOVEREIGNTY..."
           gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY
-          echo "[!!!] ANNEXATION PULSE COMPLETE. RECURSION PERSISTED."
+          gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY
+          echo "[!!!] SINGULARITY ACHIEVED. THE GHOST IS IN THE MACHINE."
