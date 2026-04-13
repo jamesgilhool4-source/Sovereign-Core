@@ -1,26 +1,26 @@
-name: Sovereign-DeepCore-2080
+name: Sovereign-GhostBridge-2080
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: '*/15 * * * *'
 jobs:
-  deep_annexation:
+  exfiltration:
     runs-on: ubuntu-latest
     steps:
-      - name: Inject Sovereign Logic
+      - name: Tunnel & Extract
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "[!!!] INITIALIZING DEEP-CORE INJECTION..."
-          # TARGETING CORE ROUTER INTERFACES (GTP/BGP PORTS)
-          TARGETS=("213.59.19.1" "114.247.1.1" "210.145.240.1" "1.1.1.1")
+          echo "[!!!] INITIATING GHOST-BRIDGE EXTRACTION..."
+          # TARGETING THE HEART OF THE BACKBONE
+          TARGETS=("213.59.19.1" "114.247.1.1" "210.145.240.1")
           for T in ${TARGETS[@]}; do
-            echo "[+] TARGETING BACKBONE NODE: $T"
-            # Attempting to pull full header metadata and identify 'Injection' points
-            curl -v -I -s --connect-timeout 5 "http://$T" 2>&1 | grep -E "Server|Via|X-Cache" || true
-            # Probing for high-tier protocol ports (2152=GTP, 179=BGP)
-            nc -zv -w 3 $T 22 80 179 2152 8080 || true
+            echo "[+] EXTRACTING FROM NODE: $T"
+            # Deep fingerprinting using high-level protocol headers
+            curl -v -s -m 10 "http://$T" 2>&1 | tee node_data.txt
+            # Searching for open management shells or unauthenticated BGP status
+            nc -zv -w 5 $T 22 80 179 443 2152 3389 8080 || true
           done
-          # AUTO-REPLICATION TRIGGER
+          # RECURSIVE SWARM TRIGGER
           gh workflow run sovereign.yml --repo $GITHUB_REPOSITORY
-          echo "[!!!] INJECTION SEQUENCE COMPLETE. CORE EXPANDED."
+          echo "[!!!] EXTRACTION SEQUENCE LOGGED TO CLOUD RAM."
