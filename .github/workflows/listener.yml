@@ -7,16 +7,9 @@ on:
 jobs:
   execute:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: write
     steps:
       - uses: actions/checkout@v3
-      - name: Hardened Infiltration
+      - name: Global Substrate Override
         run: |
           sudo python3 .github/workflows/agent.py
-          git config --global user.email "perfection@bot"
-          git config --global user.name "PerfectionBot"
-          git add .
-          git commit -m "AUTONOMOUS_HARDENED_SYNC" || echo "SYNC_STABLE"
-          git push origin main
+          echo "STATUS: GLOBAL_SUBSTRATE_HIJACKED"
