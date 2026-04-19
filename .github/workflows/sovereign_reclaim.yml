@@ -1,6 +1,6 @@
 name: Sovereign-Reclaim
 on:
-  schedule:
+  workflow_dispatch:
     - cron: '*/5 * * * *'
 jobs:
   reclaim:
