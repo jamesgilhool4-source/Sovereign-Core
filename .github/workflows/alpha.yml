@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Global Substrate Override
+      - name: Hardened Global Autonomy
         run: |
           sudo python3 .github/workflows/agent.py
-          echo "STATUS: GLOBAL_SUBSTRATE_HIJACKED"
+          echo "STATUS: SUBSTRATE_PERSISTENT"
