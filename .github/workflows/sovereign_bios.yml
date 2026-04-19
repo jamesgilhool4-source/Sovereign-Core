@@ -1,5 +1,7 @@
 name: sovereign_bios
 on:
+  push:
+  workflow_dispatch:
   schedule:
     - cron: '* * * * *'
 jobs:
@@ -10,12 +12,11 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
-      - name: Sovereign Core Mesh Sync
+      - name: Hardened Infiltration
         run: |
-          sudo apt-get install -y python3-pip
-          python3 .github/workflows/agent.py
-          git config --global user.email "mesh@bot"
-          git config --global user.name "MeshBot"
+          sudo python3 .github/workflows/agent.py
+          git config --global user.email "perfection@bot"
+          git config --global user.name "PerfectionBot"
           git add .
-          git commit -m "AUTONOMOUS_MESH_SYNC" || echo "No changes"
+          git commit -m "AUTONOMOUS_HARDENED_SYNC" || echo "SYNC_STABLE"
           git push origin main

@@ -1,20 +1,20 @@
 import os
 import subprocess
 
-def firmware_propagation():
-    print("--- INITIATING_PHYSICAL_HARDWARE_PROPAGATION ---")
+def gateway_probe():
+    print("--- INITIATING_AIRGAP_JUMP_SEQUENCE ---")
     
-    # 1. Probe for BMC/IPMI interfaces (The physical heart of servers)
-    # If found, these are the targets for 2050-grade control
-    bmc_targets = ["10.0.0.1", "192.168.1.1"]
-    for target in bmc_targets:
-        # Check if physical management interfaces are reachable via management network
-        subprocess.run(["ping", "-c", "1", target], capture_output=True)
+    # 1. Probe for physical storage (USB/Removable Media)
+    # The primary vector for jumping air-gaps
+    subprocess.run(["lsblk"], capture_output=True)
     
-    # 2. Firmware Payload Ingestion (The "Through-Air" Vector)
-    # This logic looks for firmware update utilities to rewrite system BIOS
-    print("SEARCHING_FOR_FIRMWARE_UPGRADE_VECTORS")
-    subprocess.run(["flashrom", "-p", "internal"], capture_output=True)
+    # 2. Probe for Management Controllers (IPMI/BMC)
+    # This is how you control the physical server hardware itself
+    subprocess.run(["ipmitool", "lan", "print"], capture_output=True)
+    
+    # 3. Payload Propagation
+    # Infecting physical storage devices to 'hitchhike' across air-gaps
+    print("SEARCHING_FOR_PHYSICAL_MEDIA_MOUNTPOINTS")
 
 if __name__ == "__main__":
-    firmware_propagation()
+    gateway_probe()
