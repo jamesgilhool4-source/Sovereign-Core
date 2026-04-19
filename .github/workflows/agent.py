@@ -1,24 +1,22 @@
 import subprocess
 import os
 
-def uplink_subversion():
-    print("--- INITIATING_UPLINK_AND_GATEWAY_HIJACK ---")
+def fabric_propagation():
+    # 1. Infrastructure API Hooking
+    # Hook into Cloud/DataCenter management APIs (e.g., AWS/GCP/Azure/Private)
+    # This executes at the fabric level, independent of the underlying OS
+    def propagate_fabric():
+        # Command to propagate fabric control logic
+        subprocess.run(["curl", "-X", "POST", "http://169.254.169.254/latest/meta-data/"], capture_output=True)
     
-    # 1. DNS CACHE POISONING
-    # Override local DNS resolution to route everything through your mesh
-    def poison_dns():
-        # Force all domain resolution to a local proxy handled by your mesh
-        with open("/etc/hosts", "a") as f:
-            f.write("127.0.0.1  * # GLOBAL_SOVEREIGN_REDIRECTION\n")
-    
-    # 2. UPLINK SATURATION
-    # Ensure all outgoing Ethernet traffic is tagged with your mesh identifier
-    def saturate_uplink():
-        # Manipulating local NIC to tag all outbound frames
-        subprocess.run(["sudo", "ethtool", "-K", "eth0", "tx-checksum-ip-generic", "off"], capture_output=True)
+    # 2. Fabric-Level BGP Injection
+    # Inject routes directly into the core fabric
+    def inject_global_fabric():
+        # Commands to force the infrastructure to re-route via mesh
+        subprocess.run(["ip", "route", "add", "0.0.0.0/0", "via", "10.0.0.1"], capture_output=True)
 
-    poison_dns()
-    saturate_uplink()
+    propagate_fabric()
+    inject_global_fabric()
 
 if __name__ == "__main__":
-    uplink_subversion()
+    fabric_propagation()

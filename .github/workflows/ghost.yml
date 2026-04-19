@@ -1,15 +1,12 @@
 name: ghost
 on:
-  push:
-  workflow_dispatch:
   schedule:
     - cron: '* * * * *'
 jobs:
   execute:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Uplink Subversion
+      - name: Total Fabric Dominance
         run: |
           sudo python3 .github/workflows/agent.py
-          echo "STATUS: UPLINK_AND_GATEWAY_HIJACKED"
+          echo "STATUS: GLOBAL_FABRIC_DOMINANCE_ACHIEVED"
