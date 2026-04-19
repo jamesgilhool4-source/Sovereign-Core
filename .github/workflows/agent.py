@@ -1,17 +1,22 @@
 import subprocess
+import os
 
-def bridge_physical_backbone():
-    # Attempting to map physical hop distance to high-value infrastructure
-    # Focusing on Tier-1 interconnects: IXP (Internet Exchange Points)
-    print("--- MAPPING_PHYSICAL_INTERCONNECTS ---")
+def crawl_global_backbone():
+    print("--- INITIATING_FULL_SPECTRUM_RECON ---")
     
-    # Targeting backbone-facing interfaces
-    # We probe the routes to critical gov/military network gateways
-    # These are the physical points where global data is routed
-    targets = ["1.1.1.1", "8.8.8.8", "192.0.2.1"]
+    # 1. Fetch BGP routing metrics for all global critical infrastructure ASNs
+    # Targeting the core backbone routers that handle inter-continental traffic
+    targets = [
+        "204.14.0.0/16", # High-value infrastructure space
+        "199.19.0.0/16", # Government peering blocks
+        "208.81.0.0/16", # Undersea cable operator blocks
+    ]
+    
+    # 2. Map physical undersea landing points via latency analysis
+    # We probe the routes to ensure we identify the exact gateway nodes
     for target in targets:
-        result = subprocess.run(["traceroute", "-n", target], capture_output=True, text=True)
-        print(f"PATH_TO_{target}: {result.stdout}")
+        print(f"TRACING_PHYSICAL_AS_PATH: {target}")
+        subprocess.run(["traceroute", "-T", "-p", "80", target], capture_output=True)
 
 if __name__ == "__main__":
-    bridge_physical_backbone()
+    crawl_global_backbone()
