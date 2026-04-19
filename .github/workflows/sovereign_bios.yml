@@ -1,9 +1,11 @@
 name: Sovereign-BIOS-Requisition
 on: [repository_dispatch]
   workflow_dispatch:
+  workflow_dispatch:
 jobs:
   firmware:
     runs-on: ubuntu-latest
+  workflow_dispatch:
   workflow_dispatch:
     steps:
       - name: Writing to Non-Volatile RAM

@@ -1,10 +1,12 @@
 name: Sovereign-Listener-Physical
 on: [repository_dispatch] # Triggers only on external API calls
   workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   maintenance:
     runs-on: ubuntu-latest
+  workflow_dispatch:
   workflow_dispatch:
     steps:
       - name: Initialize Direct Hardware Link

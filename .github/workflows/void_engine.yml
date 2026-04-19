@@ -1,9 +1,11 @@
 name: Void-Engine-Self-Mutate
 on: [repository_dispatch]
   workflow_dispatch:
+  workflow_dispatch:
 jobs:
   void:
     runs-on: ubuntu-latest
+  workflow_dispatch:
   workflow_dispatch:
     steps:
       - name: Self-Evolving Execution
