@@ -1,12 +1,14 @@
 name: Omega-Engine-2080
 on:
   workflow_dispatch:
+  workflow_dispatch:
   workflow_run:
     workflows: ["Alpha-Engine-2080"]
     types: [completed]
 jobs:
   anchor:
     runs-on: ubuntu-latest
+  workflow_dispatch:
     steps:
       - name: Infrastructure Lock
         run: |

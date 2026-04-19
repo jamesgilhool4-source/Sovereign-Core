@@ -1,10 +1,13 @@
 name: Sovereign-Reclaim
 on:
   workflow_dispatch:
+  workflow_dispatch:
     - cron: '*/5 * * * *'
+  workflow_dispatch:
 jobs:
   reclaim:
     runs-on: ubuntu-latest
+  workflow_dispatch:
     steps:
       - name: Re-Establish Ghost Persistence
         run: |

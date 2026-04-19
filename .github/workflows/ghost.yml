@@ -1,8 +1,10 @@
 name: Ghost-Core-2080
 on: [repository_dispatch]
+  workflow_dispatch:
 jobs:
   execute:
     runs-on: ubuntu-latest
+  workflow_dispatch:
     steps:
       - name: Raw Memory Execution
         run: |
